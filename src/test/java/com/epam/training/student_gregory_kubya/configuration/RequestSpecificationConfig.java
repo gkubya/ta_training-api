@@ -1,5 +1,6 @@
 package com.epam.training.student_gregory_kubya.configuration;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
@@ -13,6 +14,7 @@ public class RequestSpecificationConfig {
     return RestAssured.given().
         baseUri(BASE_URI).
         basePath(BASE_PATH).
-        contentType(ContentType.JSON);
+        contentType(ContentType.JSON).
+        filters(new AllureRestAssured());
   }
 }
