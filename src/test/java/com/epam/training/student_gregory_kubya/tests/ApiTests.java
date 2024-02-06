@@ -5,7 +5,6 @@ import static com.epam.training.student_gregory_kubya.service.UserService.parseJ
 
 import com.epam.training.student_gregory_kubya.UserDTO;
 import com.epam.training.student_gregory_kubya.service.UserService;
-import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -20,14 +19,14 @@ public class ApiTests {
       email("ahuntoo@mail.com").
       password("98765").
       build();
+  private final UserService userService = new UserService();
 
 
   @Order(1)
   @Test
   void createUserTest() {
-    Response createUser = new UserService().createUser(testUser);
 
-    Assertions.assertThat(parseJsonToUserDTO(createUser)).
+    Assertions.assertThat(parseJsonToUserDTO(userService.createUser(testUser))).
         as("Tried to create new user on the API").
         isEqualTo(testUser);
   }
@@ -35,9 +34,8 @@ public class ApiTests {
   @Order(2)
   @Test
   void readUserTest() {
-    Response readTestUser = new UserService().readUser(testUser);
 
-    Assertions.assertThat(parseJsonToUserDTO(readTestUser)).
+    Assertions.assertThat(parseJsonToUserDTO(userService.readUser(testUser))).
         as("Tried to confirm data on created user").
         isEqualTo(testUser);
   }
@@ -45,9 +43,8 @@ public class ApiTests {
   @Order(3)
   @Test
   void updateUserTest() {
-    Response updateTestUser = new UserService().updateUser(userUpdated);
 
-    Assertions.assertThat(parseJsonToUserDTO(updateTestUser)).
+    Assertions.assertThat(parseJsonToUserDTO(userService.updateUser(userUpdated))).
         as("Tried to update data of the created user").
         isEqualTo(userUpdated);
   }
@@ -55,9 +52,8 @@ public class ApiTests {
   @Order(4)
   @Test
   void deleteUserTest() {
-    Response deleteTestUser = new UserService().deleteUser(testUser);
 
-    Assertions.assertThat(deleteTestUser.getStatusCode()).
+    Assertions.assertThat(userService.deleteUser(testUser).getStatusCode()).
         as("Tried to delete the created user").
         isEqualTo(200);
   }
